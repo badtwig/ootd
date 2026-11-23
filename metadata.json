@@ -1,0 +1,6 @@
+{
+  "name": "Today's Outfit",
+  "description": "A simple daily outfit generator that pairs shirts and trousers from your wardrobe.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

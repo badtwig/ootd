@@ -1,0 +1,74 @@
+{
+  "entities": {
+    "UserWardrobeProfile": {
+      "title": "User Wardrobe Profile",
+      "description": "Stores initialization metadata for a user's personal wardrobe.",
+      "type": "object",
+      "properties": {
+        "ownerId": {
+          "type": "string",
+          "description": "Firebase Auth UID of the wardrobe owner.",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "initialized": {
+          "type": "boolean",
+          "description": "Whether the starter wardrobe has been initialized for this user."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when the wardrobe profile was created."
+        }
+      },
+      "required": ["ownerId", "initialized", "createdAt"]
+    },
+    "WardrobeItem": {
+      "title": "Wardrobe Item",
+      "description": "A single clothing item belonging to a user's wardrobe.",
+      "type": "object",
+      "properties": {
+        "ownerId": {
+          "type": "string",
+          "description": "Firebase Auth UID of the item owner.",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "category": {
+          "type": "string",
+          "enum": ["shirt", "upper", "trouser"],
+          "description": "Clothing category."
+        },
+        "name": {
+          "type": "string",
+          "description": "Clothing item label such as 'black short sleeve polo'.",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "^[a-zA-Z0-9 '\\-\\/&().]+$"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when the item was added."
+        }
+      },
+      "required": ["ownerId", "category", "name", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": {
+        "$ref": "#/entities/UserWardrobeProfile"
+      },
+      "description": "Per-user wardrobe root profile document."
+    },
+    "/users/{userId}/items/{itemId}": {
+      "schema": {
+        "$ref": "#/entities/WardrobeItem"
+      },
+      "description": "Individual wardrobe clothing items owned by the user."
+    }
+  }
+}
